@@ -1,7 +1,9 @@
 package org.launchcode.techjobs.persistent.models;
 
+import javax.persistence.Entity;
 import java.util.Objects;
 
+@Entity
 public class Skill extends AbstractEntity {
 
     private String description;
