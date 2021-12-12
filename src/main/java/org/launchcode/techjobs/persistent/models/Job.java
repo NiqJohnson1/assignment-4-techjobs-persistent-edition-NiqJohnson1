@@ -1,51 +1,61 @@
 package org.launchcode.techjobs.persistent.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
-public class Job{
+public class Job extends AbstractEntity{
 
-    @Id
-    @GeneratedValue
-    private int id;
+    @ManyToOne
+    @NotNull(message = "Employer is required")
+    private Employer employer;
 
-    private String name;
+    @ManyToMany
+    private final List<Skill> skills = new ArrayList<>();
 
-    private String employer;
-    private String skills;
+    public Job() {}
 
-    public Job() {
-    }
-
-    public Job(String anEmployer, String someSkills) {
-        super();
-        this.employer = anEmployer;
-        this.skills = someSkills;
-    }
+//    public Job(Employer anEmployer, List<Skill> someSkills) {
+//        this.employer = anEmployer;
+//        this.skills = someSkills;
+//
+//    }
 
     // Getters and setters.
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmployer() {
+    public Employer getEmployer() {
         return employer;
     }
 
-    public void setEmployer(String employer) {
+    public void setEmployer(Employer employer) {
         this.employer = employer;
     }
 
-    public String getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(String skills) {
-        this.skills = skills;
+    public void addSkill(Skill skill) {
+        this.skills.add(skill);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Job job = (Job) o;
+        return Objects.equals(employer, job.employer) && Objects.equals(skills, job.skills);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), employer, skills);
+    }
+
+
 }
