@@ -14,6 +14,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,14 +52,16 @@ public class HomeController {
     }
 
     @PostMapping("add")
-    public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors,
-                                    @RequestParam List<Integer> skills ) {
-        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-        newJob.getSkills();
+    public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors, Model model,
+                                    @RequestParam int employerId, @RequestParam List<Integer> skills) {
+
         if (errors.hasErrors()) {
             return "add";
         }
-
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+        newJob.setSkills(skillObjs);
+        Employer employer = employerRepository.findById(employerId).orElse(new Employer());
+        newJob.setEmployer(employer);
         jobRepository.save(newJob);
 
         return "redirect:";
@@ -65,9 +69,11 @@ public class HomeController {
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
-        model.addAttribute("title", "All Jobs");
-        return "view";
-    }
+
+            model.addAttribute("job", jobRepository.findById(jobId));
+            model.addAttribute("title", "Job");
+            return "view";
+        }
 
 
 }

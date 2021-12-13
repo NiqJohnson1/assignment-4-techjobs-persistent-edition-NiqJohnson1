@@ -45,4 +45,12 @@ public class Skill extends AbstractEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), description);
     }
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "description='" + description + '\'' +
+                ", jobs=" + jobs +
+                '}';
+    }
 }
