@@ -19,7 +19,7 @@ public class Employer extends AbstractEntity {
 
     @OneToMany
     @JoinColumn(name = "employer_id")
-    private final List<Job> jobs = new ArrayList<>();
+    private List<Job> jobs = new ArrayList<>();
 
 
     //No Arg Constructor
@@ -40,6 +40,10 @@ public class Employer extends AbstractEntity {
         return jobs;
     }
 
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,11 +58,5 @@ public class Employer extends AbstractEntity {
         return Objects.hash(super.hashCode(), location);
     }
 
-    @Override
-    public String toString() {
-        return "Employer{" +
-                "location='" + location + '\'' +
-                ", jobs=" + jobs +
-                '}';
-    }
+
 }

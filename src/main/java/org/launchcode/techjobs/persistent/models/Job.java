@@ -18,6 +18,7 @@ public class Job extends AbstractEntity{
     public Job() {}
 
     public Job(Employer anEmployer, List<Skill> someSkills) {
+        super();
         this.employer = anEmployer;
         this.skills = someSkills;
 
@@ -42,9 +43,6 @@ public class Job extends AbstractEntity{
         this.skills = skills;
     }
 
-    public void addSkill(Skill skill) {
-        this.skills.add(skill);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,11 +58,4 @@ public class Job extends AbstractEntity{
         return Objects.hash(super.hashCode(), employer, skills);
     }
 
-    @Override
-    public String toString() {
-        return "Job{" +
-                "employer=" + employer +
-                ", skills=" + skills +
-                '}';
-    }
 }
